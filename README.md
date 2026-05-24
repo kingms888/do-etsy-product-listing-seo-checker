@@ -1,0 +1,1 @@
+# do-etsy-product-listing-seo-checker
