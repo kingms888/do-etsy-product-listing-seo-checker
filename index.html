@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+  <title>Etsy SEO Checker · Listing Optimizer & Title Generator</title>
+  <meta name="description" content="Free Etsy listing SEO checker: analyze titles, tags, and keywords for better visibility. Etsy seller tool for title generation and keyword scoring.">
+  <meta name="keywords" content="etsy seo, listing optimizer, keyword checker etsy, etsy title generator, seo tool etsy">
+  <meta name="author" content="EtsySEO.tools (demo)">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://etsyseo.tools/checker">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Etsy Product Listing SEO Checker">
+  <meta property="og:description" content="Score your Etsy title & tags instantly. Free keyword checker for sellers.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://etsyseo.tools/checker">
+  <meta property="og:locale" content="en_US">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #faf7f2;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      color: #2e2e2e;
+      line-height: 1.5;
+      padding: 1rem;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      width: 100%;
+      flex: 1;
+    }
+
+    header {
+      text-align: center;
+      padding: 1.5rem 0.5rem 0.8rem;
+    }
+
+    header h1 {
+      font-size: 1.9rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: #1f3a3f;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    header h1 span {
+      background: #d8e2dc;
+      padding: 0.2rem 0.8rem;
+      border-radius: 40px;
+      font-size: 1rem;
+      font-weight: 400;
+      color: #1f3a3f;
+    }
+
+    .subhead {
+      color: #4f5e64;
+      margin-top: 0.4rem;
+      font-size: 1rem;
+    }
+
+    .ad-placeholder {
+      background: #f0ede8;
+      border-radius: 16px;
+      padding: 1rem 1.2rem;
+      margin: 1.2rem 0;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      border: 1px solid #ddd6cc;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+    }
+
+    .ad-placeholder .ad-text {
+      font-size: 0.9rem;
+      color: #3f4a4e;
+    }
+
+    .ad-placeholder .ad-badge {
+      background: #c5d5cb;
+      padding: 0.2rem 1rem;
+      border-radius: 30px;
+      font-weight: 500;
+      font-size: 0.8rem;
+      color: #1f3a3f;
+    }
+
+    .card {
+      background: white;
+      border-radius: 28px;
+      padding: 1.8rem 1.5rem;
+      box-shadow: 0 8px 24px rgba(0, 20, 20, 0.04);
+      margin: 1.2rem 0;
+      border: 1px solid #ece7e0;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    @media (max-width: 640px) {
+      .grid-2 {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+      header h1 {
+        font-size: 1.6rem;
+      }
+      .card {
+        padding: 1.2rem 1rem;
+      }
+    }
+
+    label {
+      font-weight: 500;
+      font-size: 0.9rem;
+      display: block;
+      margin-bottom: 0.3rem;
+      color: #1f3a3f;
+    }
+
+    textarea, input {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      border: 1px solid #d6d1c9;
+      border-radius: 40px;
+      font-size: 1rem;
+      background: #fefcf9;
+      transition: 0.2s;
+      font-family: inherit;
+    }
+
+    textarea {
+      border-radius: 24px;
+      min-height: 80px;
+      resize: vertical;
+    }
+
+    textarea:focus, input:focus {
+      outline: 2px solid #b7c9c0;
+      border-color: transparent;
+      background: white;
+    }
+
+    .input-group {
+      margin-bottom: 1.2rem;
+    }
+
+    .tag-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .tag {
+      background: #e9e3da;
+      padding: 0.2rem 0.9rem;
+      border-radius: 30px;
+      font-size: 0.8rem;
+      color: #1f3a3f;
+    }
+
+    .btn {
+      background: #1f3a3f;
+      color: white;
+      border: none;
+      padding: 0.8rem 2rem;
+      border-radius: 60px;
+      font-weight: 500;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.15s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      box-shadow: 0 4px 8px rgba(0,20,20,0.08);
+    }
+
+    .btn:hover {
+      background: #14292e;
+      transform: scale(0.98);
+    }
+
+    .btn-secondary {
+      background: #e3ded6;
+      color: #1f3a3f;
+      box-shadow: none;
+    }
+
+    .btn-secondary:hover {
+      background: #d2cbc0;
+    }
+
+    .result-area {
+      background: #f4f1ec;
+      border-radius: 24px;
+      padding: 1.2rem 1.4rem;
+      margin: 1.2rem 0 0.5rem;
+    }
+
+    .score-badge {
+      display: inline-block;
+      background: #1f3a3f;
+      color: white;
+      padding: 0.3rem 1.2rem;
+      border-radius: 40px;
+      font-weight: 600;
+      font-size: 1.2rem;
+      letter-spacing: 0.02em;
+    }
+
+    .suggestion-item {
+      background: white;
+      border-radius: 20px;
+      padding: 0.6rem 1rem;
+      margin: 0.5rem 0;
+      border-left: 5px solid #b7c9c0;
+    }
+
+    .flex-between {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .affiliate-section {
+      background: #f3efe9;
+      border-radius: 24px;
+      padding: 1.2rem 1.5rem;
+      margin: 1.5rem 0;
+      border: 1px solid #ddd6cc;
+    }
+
+    .affiliate-section h3 {
+      font-size: 1.1rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      color: #1f3a3f;
+    }
+
+    .affiliate-links a {
+      display: inline-block;
+      background: white;
+      padding: 0.4rem 1.2rem;
+      border-radius: 40px;
+      margin: 0.3rem 0.3rem 0.3rem 0;
+      text-decoration: none;
+      color: #1f3a3f;
+      border: 1px solid #d6d1c9;
+      font-size: 0.9rem;
+    }
+
+    .affiliate-links a:hover {
+      background: #e9e3da;
+    }
+
+    .privacy-note {
+      font-size: 0.75rem;
+      color: #5f6b70;
+      background: #f0ece6;
+      padding: 0.6rem 1rem;
+      border-radius: 60px;
+      margin: 1.2rem 0 0.5rem;
+      text-align: center;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem 0 0.5rem;
+      color: #5f6b70;
+      font-size: 0.8rem;
+    }
+
+    .inline-icon {
+      font-size: 1.2rem;
+      line-height: 1;
+    }
+
+    .mt-1 { margin-top: 0.8rem; }
+    .mb-1 { margin-bottom: 0.8rem; }
+    .text-center { text-align: center; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>
+        🧪 Etsy SEO Checker
+        <span>v1</span>
+      </h1>
+      <div class="subhead">Score your title & tags · keyword suggestions · listing optimizer</div>
+    </header>
+
+    <!-- Ad placeholder (visible) -->
+    <div class="ad-placeholder" aria-label="advertisement">
+      <span class="ad-text">📌 Sponsored: <strong>eRank Etsy SEO Tool</strong> – research keywords, track rankings</span>
+      <span class="ad-badge">Ad</span>
+    </div>
+
+    <!-- Main tool card -->
+    <div class="card">
+      <div class="grid-2">
+        <!-- left: input -->
+        <div>
+          <div class="input-group">
+            <label for="etsy-title">📝 Listing title</label>
+            <textarea id="etsy-title" maxlength="140" placeholder="e.g. Personalized wooden necklace, handmade gift for her">Personalized wooden necklace, handmade gift for her</textarea>
+            <div style="display: flex; justify-content: space-between; margin-top: 0.2rem; font-size: 0.75rem; color: #5f6b70;">
+              <span>✨ max 140 chars</span>
+              <span id="char-count">0 / 140</span>
+            </div>
+          </div>
+
+          <div class="input-group">
+            <label for="etsy-tags">🏷️ Tags (comma separated)</label>
+            <input type="text" id="etsy-tags" value="wooden necklace, personalized, handmade, gift for her, nature jewelry" placeholder="wooden necklace, personalized, gift">
+          </div>
+
+          <div class="flex-between" style="gap:0.5rem;">
+            <button class="btn" id="analyze-btn">🔍 Analyze SEO</button>
+            <button class="btn btn-secondary" id="reset-btn">↺ Reset</button>
+          </div>
+          <p style="font-size:0.8rem; margin-top:0.6rem; color:#4f5e64;">We check keyword density, length, and tag overlap.</p>
+        </div>
+
+        <!-- right: results -->
+        <div>
+          <div id="result-panel">
+            <div style="background: #f4f1ec; border-radius: 24px; padding: 1rem; min-height: 160px;">
+              <div class="flex-between">
+                <span style="font-weight: 500;">📊 SEO Score</span>
+                <span id="score-display" class="score-badge">—</span>
+              </div>
+              <div id="suggestions-box" style="margin-top: 0.8rem;">
+                <div style="color: #5f6b70; font-size:0.9rem;">Enter title & tags, then click Analyze.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Affiliate / resource placeholder -->
+    <div class="affiliate-section">
+      <h3>📘 Etsy seller resources</h3>
+      <div class="affiliate-links">
+        <a href="#" onclick="reportEvent('affiliate_click', {resource:'etsy-pricing'}); return false;">📈 Etsy Pricing Guide</a>
+        <a href="#" onclick="reportEvent('affiliate_click', {resource:'keyword-tool'}); return false;">🔑 Keyword Tool (eRank)</a>
+        <a href="#" onclick="reportEvent('affiliate_click', {resource:'title-generator'}); return false;">⚡ Title Generator</a>
+        <a href="#" onclick="reportEvent('affiliate_click', {resource:'etsy-ads'}); return false;">📢 Etsy Ads Tips</a>
+      </div>
+      <p style="font-size:0.8rem; color:#4f5e64; margin-top:0.3rem;">Some links are affiliate links. We may earn a small commission.</p>
+    </div>
+
+    <!-- Privacy note -->
+    <div class="privacy-note">
+      🔒 Privacy: events may be counted anonymously for product improvement. No personal data collected.
+    </div>
+
+    <footer>
+      <span>🧰 EtsySEO.tools (demo) — not affiliated with Etsy Inc.</span>
+    </footer>
+  </div>
+
+  <script>
+    (function() {
+      // ---------- reporting ----------
+      window.ORGANISM_METRICS_ENDPOINT = window.ORGANISM_METRICS_ENDPOINT || null; // configurable
+
+      window.reportEvent = function(name, payload) {
+        if (typeof window.ORGANISM_METRICS_ENDPOINT === 'string' && window.ORGANISM_METRICS_ENDPOINT.length > 0) {
+          try {
+            const body = JSON.stringify({ event: name, payload: payload || {}, timestamp: new Date().toISOString() });
+            if (navigator.sendBeacon) {
+              navigator.sendBeacon(window.ORGANISM_METRICS_ENDPOINT, body);
+            } else {
+              fetch(window.ORGANISM_METRICS_ENDPOINT, {
+                method: 'POST',
+                body: body,
+                keepalive: true,
+                headers: { 'Content-Type': 'application/json' }
+              }).catch(() => {});
+            }
+          } catch (e) { /* silent */ }
+        }
+      };
+
+      // ---------- DOM refs ----------
+      const titleInput = document.getElementById('etsy-title');
+      const tagsInput = document.getElementById('etsy-tags');
+      const analyzeBtn = document.getElementById('analyze-btn');
+      const resetBtn = document.getElementById('reset-btn');
+      const scoreDisplay = document.getElementById('score-display');
+      const suggestionsBox = document.getElementById('suggestions-box');
+      const charCount = document.getElementById('char-count');
+
+      // char counter
+      function updateCharCount() {
+        const len = titleInput.value.length;
+        charCount.textContent = len + ' / 140';
+        if (len > 130) charCount.style.color = '#b34a4a';
+        else charCount.style.color = '#5f6b70';
+      }
+      titleInput.addEventListener('input', updateCharCount);
+      updateCharCount();
+
+      // ---------- core analysis ----------
+      function analyzeSEO(title, tagsRaw) {
+        // clean & tokenize
+        const titleLower = title.toLowerCase().trim();
+        const titleTokens = titleLower.split(/[^a-z0-9'\-]+/).filter(t => t.length > 0);
+        const uniqueTitleTokens = [...new Set(titleTokens)];
+
+        // tags
+        const tagList = tagsRaw.split(',').map(t => t.trim().toLowerCase()).filter(t => t.length > 0);
+        const tagSet = new Set(tagList);
+
+        // 1. score calculation (0-100)
+        let score = 0;
+        const suggestions = [];
+
+        // a) title length
+        const charLen = title.length;
+        if (charLen >= 40 && charLen <= 130) {
+          score += 20;
+        } else if (charLen > 0 && charLen < 40) {
+          score += 8;
+          suggestions.push('📏 Title is short (under 40 chars). Add more descriptive keywords.');
+        } else if (charLen > 130) {
+          score += 10;
+          suggestions.push('📏 Title is near max length. Consider trimming to avoid truncation.');
+        } else {
+          suggestions.push('📏 Title is empty — add keywords.');
+        }
+
+        // b) keyword richness: at least 3 meaningful tokens
+        if (uniqueTitleTokens.length >= 5) {
+          score += 20;
+        } else if (uniqueTitleTokens.length >= 3) {
+          score += 12;
+          suggestions.push('🔤 Add more unique keywords to your title (aim for 5+).');
+        } else {
+          score += 4;
+          suggestions.push('🔤 Very few unique words. Expand your title with relevant keywords.');
+        }
+
+        // c) tag overlap with title
+        let overlapCount = 0;
+        if (tagSet.size > 0) {
+          for (let tag of tagSet) {
+            // check if tag appears in title (as substring or token match)
+            if (titleLower.includes(tag)) {
+              overlapCount++;
+            } else {
+              // check token-level overlap
+              const tagTokens = tag.split(/[^a-z0-9'\-]+/).filter(t => t.length > 0);
+              for (let token of tagTokens) {
+                if (titleTokens.includes(token)) {
+                  overlapCount++;
+                  break;
+                }
+              }
+            }
+          }
+        }
+
+        if (tagSet.size === 0) {
+          suggestions.push('🏷️ No tags provided. Add at least 5–10 tags.');
+          score += 0;
+        } else {
+          const overlapRatio = overlapCount / tagSet.size;
+          if (overlapRatio >= 0.6) {
+            score += 25;
+          } else if (overlapRatio >= 0.3) {
+            score += 15;
+            suggestions.push('🏷️ Increase tag overlap: use words from your title in tags (or vice versa).');
+          } else {
+            score += 5;
+            suggestions.push('🏷️ Tags barely overlap with title. Include title keywords in tags.');
+          }
+        }
+
+        // d) tag count bonus
+        if (tagSet.size >= 8) {
+          score += 15;
+        } else if (tagSet.size >= 5) {
+          score += 10;
+        } else if (tagSet.size >= 3) {
+          score += 5;
+        } else {
+          suggestions.push('🏷️ Add more tags (aim for 8–13).');
+        }
+
+        // e) common keyword presence (etsy context)
+        const commonWords = ['gift', 'handmade', 'personalized', 'custom', 'unique', 'wood', 'jewelry', 'home', 'art'];
+        let commonCount = 0;
+        for (let w of commonWords) {
+          if (titleLower.includes(w)) commonCount++;
+        }
+        if (commonCount >= 3) {
+          score += 10;
+        } else if (commonCount >= 1) {
+          score += 5;
+        }
+
+        // f) extra: avoid generic stopword-only title
+        const stopwords = ['this', 'that', 'and', 'the', 'for', 'with', 'your', 'our'];
+        const stopwordRatio = titleTokens.filter(t => stopwords.includes(t)).length / (titleTokens.length || 1);
+        if (stopwordRatio > 0.5 && titleTokens.length > 3) {
+          score -= 5;
+          suggestions.push('⚠️ Title contains many generic words. Add specific product keywords.');
+        }
+
+        // clamp score 0-100
+        score = Math.min(100, Math.max(0, score));
+
+        // generate extra suggestions if few
+        if (suggestions.length === 0) {
+          if (score >= 80) suggestions.push('🌟 Great SEO! Your title and tags are well aligned.');
+          else if (score >= 50) suggestions.push('👍 Decent optimization. Fine-tune tags for better reach.');
+          else suggestions.push('📌 Try to include your main keyword in both title and tags.');
+        }
+
+        // ensure at least one suggestion
+        if (suggestions.length === 0) {
+          suggestions.push('✅ Looks good! Keep monitoring performance.');
+        }
+
+        // limit suggestions shown
+        const finalSuggestions = suggestions.slice(0, 4);
+
+        // generate keyword ideas (simple)
+        const keywordIdeas = [];
+        if (tagSet.size > 0) {
+          const extra = ['etsy', 'best', 'sale', 'trending', 'top', 'unique', 'gift', 'handmade'];
+          for (let e of extra) {
+            if (!titleLower.includes(e) && !tagSet.has(e)) {
+              keywordIdeas.push(e);
+            }
+            if (keywordIdeas.length >= 4) break;
+          }
+        } else {
+          keywordIdeas.push('handmade', 'gift', 'personalized', 'unique');
+        }
+
+        return {
+          score: Math.round(score),
+          suggestions: finalSuggestions,
+          keywordIdeas: keywordIdeas.slice(0, 4)
+        };
+      }
+
+      // ---------- render results ----------
+      function renderResult(result) {
+        scoreDisplay.textContent = result.score + '/100';
+        // color
+        if (result.score >= 70) {
+          scoreDisplay.style.background = '#2b6e4e';
+        } else if (result.score >= 40) {
+          scoreDisplay.style.background = '#b08a3e';
+        } else {
+          scoreDisplay.style.background = '#9e4f4f';
+        }
+
+        let html = '';
+        // suggestions
+        if (result.suggestions.length) {
+          html += '<div style="margin-bottom: 0.5rem; font-weight: 500;">💡 Suggestions</div>';
+          result.suggestions.forEach(s => {
+            html += `<div class="suggestion-item">${s}</div>`;
+          });
+        }
+
+        // keyword ideas
+        if (result.keywordIdeas && result.keywordIdeas.length) {
+          html += '<div style="margin-top: 0.8rem;"><span style="font-weight: 500;">✨ Try these keywords</span> ';
+          result.keywordIdeas.forEach(k => {
+            html += `<span class="tag">${k}</span> `;
+          });
+          html += '</div>';
+        }
+
+        if (html === '') {
+          html = '<div style="color: #5f6b70;">No suggestions — perfect title?</div>';
+        }
+        suggestionsBox.innerHTML = html;
+      }
+
+      // ---------- main analyze ----------
+      function runAnalysis() {
+        const title = titleInput.value.trim();
+        const tags = tagsInput.value.trim();
+
+        if (title.length === 0 && tags.length === 0) {
+          suggestionsBox.innerHTML = '<div style="color:#7f5a5a;">⚠️ Please enter a title or tags to analyze.</div>';
+          scoreDisplay.textContent = '—';
+          scoreDisplay.style.background = '#1f3a3f';
+          return;
+        }
+
+        const result = analyzeSEO(title, tags);
+        renderResult(result);
+
+        // report event
+        reportEvent('seo_check', {
+          titleLength: title.length,
+          tagCount: tags.split(',').filter(t => t.trim().length > 0).length,
+          score: result.score
+        });
+      }
+
+      // ---------- reset ----------
+      function resetTool() {
+        titleInput.value = 'Personalized wooden necklace, handmade gift for her';
+        tagsInput.value = 'wooden necklace, personalized, handmade, gift for her, nature jewelry';
+        updateCharCount();
+        scoreDisplay.textContent = '—';
+        scoreDisplay.style.background = '#1f3a3f';
+        suggestionsBox.innerHTML = '<div style="color: #5f6b70; font-size:0.9rem;">Enter title & tags, then click Analyze.</div>';
+        reportEvent('reset_tool', {});
+      }
+
+      // event listeners
+      analyzeBtn.addEventListener('click', runAnalysis);
+      resetBtn.addEventListener('click', resetTool);
+
+      // allow enter in textarea? (ctrl+enter)
+      titleInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+          e.preventDefault();
+          runAnalysis();
+        }
+      });
+
+      // initial placeholder analysis? optional: run on load? we keep neutral.
+      // but we can show a small demo if fields are filled
+      window.addEventListener('load', function() {
+        // if fields have default, we could auto-run? better not to spam. 
+        // but we show a gentle hint.
+        const defaultTitle = titleInput.value.trim();
+        if (defaultTitle.length > 0) {
+          // just update char count
+          updateCharCount();
+        }
+      });
+
+      // also report page view (anonymously)
+      reportEvent('page_view', { tool: 'etsy-seo-checker' });
+
+    })();
+  </script>
+</body>
+</html>
